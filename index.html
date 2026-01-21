@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz ML - Master Edition (57 Preguntas)</title>
+    <title>Quiz ML - Universe Edition (72 Preguntas)</title>
     <style>
         :root {
             --primary-color: #2563eb;
@@ -256,7 +256,7 @@
 </div>
 
 <script>
-    // --- BASE DE DATOS MASIVA (57 Preguntas) ---
+    // --- BASE DE DATOS COMPLETA (72 Preguntas) ---
     const rawData = [
         // === BLOQUE 1: FUNDAMENTOS ===
         {
@@ -690,7 +690,7 @@
                 { text: "Es robusto ante ruido", isCorrect: false }
             ]
         },
-        // === BLOQUE 7: NUEVAS (ENSAMBLE, BOOSTING, SVM) ===
+        // === BLOQUE 7: ENSAMBLE, BOOSTING, SVM ===
         {
             topic: "Ensamble / Bagging",
             question: "Las técnicas de ensamble de modelos hacen referencia a:",
@@ -803,6 +803,151 @@
                 { text: "El término viene del inglés Support Vector Machines", isCorrect: false },
                 { text: "Fueron inventadas por Vladimir Vapnik", isCorrect: false },
                 { text: "Son eficaces en espacios de alta dimensión", isCorrect: false }
+            ]
+        },
+        // === BLOQUE 8: NUEVAS (SVM, REDES NEURONALES) ===
+        {
+            topic: "SVM",
+            question: "¿Cómo elegir el mejor hiperplano que separe dos clases?",
+            options: [
+                { text: "Hay que buscar aquel que proporcione el mayor espacio entre dos clases", isCorrect: true },
+                { text: "Hay que buscar aquel que proporcione el menor espacio entre dos clases", isCorrect: false },
+                { text: "Hay que buscar aquel que proporcione el menor espacio entre los datos de test", isCorrect: false },
+                { text: "Hay que escoger uno al azar", isCorrect: false }
+            ]
+        },
+        {
+            topic: "SVM",
+            question: "Es cierto con respecto al parámetro C en SVM:",
+            options: [
+                { text: "Cuanto más grande sea el C, menos errores se permiten", isCorrect: true },
+                { text: "Un C grande permite muchos errores", isCorrect: false },
+                { text: "Un C pequeño penaliza muy fuerte los errores", isCorrect: false },
+                { text: "Un C pequeño no permite que las observaciones puedan estar del lado incorrecto", isCorrect: false }
+            ]
+        },
+        {
+            topic: "SVM",
+            question: "Cuando hablamos de expansión de características es cierto que:",
+            options: [
+                { text: "Se pasa de un espacio p a un espacio D donde D > p", isCorrect: true },
+                { text: "Se pasa de un espacio p a un espacio D donde p > D", isCorrect: false },
+                { text: "Se pasa de un espacio p a un espacio D donde p = D", isCorrect: false },
+                { text: "D y p siempre son iguales", isCorrect: false }
+            ]
+        },
+        {
+            topic: "SVM (Kernels)",
+            question: "Un kernel en SVM es:",
+            options: [
+                { text: "Una función que recibe dos vectores y transforma a un espacio de mayor dimensionalidad", isCorrect: true },
+                { text: "Una función que recibe un vector y transforma a un espacio de características mayor", isCorrect: false },
+                { text: "Un truco que utiliza el algoritmo para predecir sin entrenar", isCorrect: false },
+                { text: "Una función que ayuda a elegir instancias de entrenamiento", isCorrect: false }
+            ]
+        },
+        {
+            topic: "SVM (Kernels)",
+            question: "Es un tipo de kernel muy común:",
+            options: [
+                { text: "Kernel de base radial", isCorrect: true },
+                { text: "Kernel ingenuo", isCorrect: false },
+                { text: "Kernel basado en redes de neuronas", isCorrect: false },
+                { text: "Kernel circular", isCorrect: false }
+            ]
+        },
+        {
+            topic: "SVM",
+            question: "Se considera una debilidad del algoritmo SVM:",
+            options: [
+                { text: "Puede ser lento de entrenar si se tienen muchos datos y muchas columnas", isCorrect: true },
+                { text: "Es muy rápido de entrenarse sin importar la cantidad de datos", isCorrect: false },
+                { text: "Funciona muy bien con datos ruidosos", isCorrect: false },
+                { text: "Se puede utilizar en problemas de clasificación y regresión", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Redes Neuronales (Perceptrón)",
+            question: "Una función de activación es:",
+            options: [
+                { text: "Una función que define la salida de una neurona dada una entrada o conjunto de entradas", isCorrect: true },
+                { text: "Una función que utiliza regresión exponencial y lineal", isCorrect: false },
+                { text: "Una función que utiliza regresión logística solamente", isCorrect: false },
+                { text: "Una función que utiliza una regresión exponencial", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Redes Neuronales (Perceptrón)",
+            question: "Un perceptrón está conformado por:",
+            options: [
+                { text: "Nodos que reciben los datos de entrada, pesos sinápticos y una función de activación", isCorrect: true },
+                { text: "Un conjunto de neuronas artificiales", isCorrect: false },
+                { text: "Dendritas, axón y cuerpo celular", isCorrect: false },
+                { text: "Dendritas y axón", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Redes Neuronales (Perceptrón)",
+            question: "Década en la que se crea el perceptrón:",
+            options: [
+                { text: "1950", isCorrect: true },
+                { text: "1940", isCorrect: false },
+                { text: "1930", isCorrect: false },
+                { text: "1960", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Redes Neuronales",
+            question: "Las funciones lineales, tangente hiperbólica y gaussiana son funciones de activación:",
+            options: [
+                { text: "Verdadero", isCorrect: true },
+                { text: "Falso", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Redes Neuronales",
+            question: "El número de capas de una red neuronal depende del número de características que tenga el conjunto de datos:",
+            options: [
+                { text: "Verdadero", isCorrect: false },
+                { text: "Falso", isCorrect: true }
+            ]
+        },
+        {
+            topic: "Redes Neuronales",
+            question: "El número de neuronas de entrada depende del número de características que tenga el conjunto de datos:",
+            options: [
+                { text: "Verdadero", isCorrect: true },
+                { text: "Falso", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Redes Neuronales (Backprop)",
+            question: "Las fases del algoritmo de *backpropagation* son:",
+            options: [
+                { text: "Fase forward y Fase backward", isCorrect: true },
+                { text: "Solo Fase de reentrenamiento", isCorrect: false },
+                { text: "Solo Fase de retropropagación", isCorrect: false },
+                { text: "Fase de entrenamiento y Fase de validación", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Redes Neuronales (Backprop)",
+            question: "Para modificar los pesos de una red se utiliza:",
+            options: [
+                { text: "La técnica del gradiente descendente y la derivada de la función de activación", isCorrect: true },
+                { text: "Los pesos no se modifican", isCorrect: false },
+                { text: "La dirección de la mayor reducción del error únicamente", isCorrect: false },
+                { text: "Valores aleatorios", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Redes Neuronales (Fortalezas)",
+            question: "Se consideran fortalezas de las redes neuronales:",
+            options: [
+                { text: "Se adaptan fácilmente a clasificación/regresión y hacen pocas suposiciones sobre los datos", isCorrect: true },
+                { text: "Gestionan muy bien los datos faltantes", isCorrect: false },
+                { text: "Son modelos de caja blanca muy interpretables", isCorrect: false },
+                { text: "Funcionan mejor con pocos datos", isCorrect: false }
             ]
         }
     ];
