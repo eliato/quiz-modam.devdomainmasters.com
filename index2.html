@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz ML - Evaluación Completa</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --success-color: #22c55e;
+            --error-color: #ef4444;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --border-color: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .quiz-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 650px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .header h1 { margin: 0; font-size: 1.2rem; }
+
+        .progress-bar {
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.3);
+            margin-top: 10px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #ffffff;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-body {
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            background-color: white;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 15px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            color: var(--text-color);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary-color);
+            background-color: #eff6ff;
+        }
+        .option-btn:disabled { cursor: default; }
+        .option-btn.correct {
+            background-color: #dcfce7;
+            border-color: var(--success-color);
+            color: #14532d;
+        }
+        .option-btn.incorrect {
+            background-color: #fee2e2;
+            border-color: var(--error-color);
+            color: #7f1d1d;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .controls {
+            padding: 15px 25px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            background-color: #fff;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .btn:hover { background-color: #1d4ed8; }
+        .btn:disabled { background-color: #9ca3af; cursor: not-allowed; }
+
+        /* Estilos Pantalla de Resultados */
+        .result-screen {
+            text-align: center;
+            padding: 20px 30px;
+            display: none;
+            overflow-y: auto;
+            max-height: 100%;
+        }
+
+        .grade-circle {
+            width: 120px;
+            height: 120px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .final-grade {
+            font-size: 2.8rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .grade-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .raw-score-small {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .recommendation-box {
+            background-color: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .recommendation-title {
+            font-weight: bold;
+            color: #92400e;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .recommendation-text {
+            font-size: 0.95rem;
+            color: #78350f;
+            line-height: 1.4;
+        }
+
+        .review-container {
+            text-align: left;
+            margin-top: 20px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        .review-item {
+            background-color: #f9fafb;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid transparent;
+            font-size: 0.9rem;
+        }
+
+        .review-item.correct-item { border-left-color: var(--success-color); }
+        .review-item.wrong-item { border-left-color: var(--error-color); }
+
+        .review-q { font-weight: bold; margin-bottom: 6px; }
+        
+        .tag-pill {
+            display: inline-block;
+            font-size: 0.7rem;
+            background-color: #e5e7eb;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 5px;
+            color: #4b5563;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div class="header">
+        <h1>Evaluación Machine Learning</h1>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+    </div>
+
+    <div class="quiz-body" id="question-screen">
+        <div class="question-text" id="question">Cargando...</div>
+        <div class="options-list" id="options"></div>
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <div class="result-screen" id="result-screen">
+        <h2>Resultados Finales</h2>
+        
+        <div class="grade-circle">
+            <div class="final-grade" id="final-grade">0.0</div>
+            <div class="grade-label">NOTA FINAL</div>
+        </div>
+
+        <div class="raw-score-small">
+            Aciertos totales: <span id="final-raw-score">0 / 0</span>
+        </div>
+
+        <div class="recommendation-box" id="rec-box" style="display:none;">
+            <span class="recommendation-title">💡 Recomendación de Estudio:</span>
+            <div class="recommendation-text" id="rec-text"></div>
+        </div>
+        
+        <button class="btn" onclick="initQuiz()">Volver a intentar</button>
+
+        <div class="review-container" id="review-list"></div>
+    </div>
+
+    <div class="controls" id="controls">
+        <button class="btn" id="next-btn" onclick="nextQuestion()" disabled>Siguiente</button>
+    </div>
+</div>
+
+<script>
+    // --- BASE DE DATOS COMPLETA (21 Preguntas) ---
+    const rawData = [
+        // --- Metodología y Fundamentos ---
+        {
+            topic: "Procesos de ML",
+            question: "¿Cuál NO es una etapa dentro del proceso general de modelado del aprendizaje automático?",
+            options: [
+                { text: "Definir el problema", isCorrect: false },
+                { text: "Dividir el conjunto de entrenamiento y test", isCorrect: false },
+                { text: "Entrenar el modelo", isCorrect: false },
+                { text: "Numerar los ejemplos de entrenamiento", isCorrect: true }
+            ]
+        },
+        {
+            topic: "Validación de Modelos",
+            question: "La validación cruzada consiste en:",
+            options: [
+                { text: "Generar 5 conjuntos de entrenamiento para entrenar el modelo", isCorrect: false },
+                { text: "Dividir en k grupos los datos y usar uno como test en cada iteración", isCorrect: true },
+                { text: "Utilizar la técnica de hold-out una sola vez", isCorrect: false },
+                { text: "Dividir los datos en k grupos y entrenar un modelo diferente con cada grupo", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Validación de Modelos",
+            question: "En el ejercicio del iris realizado en Python, la alta exactitud es debido a:",
+            options: [
+                { text: "Es producto del azar", isCorrect: false },
+                { text: "Es un dataset muy sencillo que alcanza buena exactitud con cualquier modelo", isCorrect: true },
+                { text: "Tiene la cantidad de datos óptima para entrenar", isCorrect: false },
+                { text: "Tiene el mismo número de datos por cada clase", isCorrect: false }
+            ]
+        },
+        // --- Terminología ---
+        {
+            topic: "Terminología Básica",
+            question: "¿Cuál NO es un nombre con el que se le conoce a la variable respuesta?",
+            options: [
+                { text: "Clase", isCorrect: false },
+                { text: "Variable objetivo", isCorrect: false },
+                { text: "Target", isCorrect: false },
+                { text: "Regressors", isCorrect: true }
+            ]
+        },
+        {
+            topic: "Terminología Básica",
+            question: "¿Cuál NO es un nombre para la variable predictora?",
+            options: [
+                { text: "Entrada o input", isCorrect: false },
+                { text: "Class o clase", isCorrect: true },
+                { text: "Variable independiente", isCorrect: false },
+                { text: "Características o features", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Teoría de Funciones",
+            question: "A la función f(x) ideal se la conoce con el nombre de:",
+            options: [
+                { text: "Función estimadora", isCorrect: false },
+                { text: "Función perfecta", isCorrect: false },
+                { text: "Función de regresión", isCorrect: true },
+                { text: "Función objetivo", isCorrect: false }
+            ]
+        },
+        // --- Tipos de Aprendizaje ---
+        {
+            topic: "Tipos de Aprendizaje",
+            question: "Verdadero o Falso: El aprendizaje supervisado se divide en problemas de agrupamiento y detección de anomalías.",
+            options: [
+                { text: "Verdadero", isCorrect: false },
+                { text: "Falso", isCorrect: true }
+            ]
+        },
+        {
+            topic: "Tipos de Aprendizaje",
+            question: "Verdadero o Falso: El problema de agrupamiento consiste en dividir los datos en grupos con características similares.",
+            options: [
+                { text: "Verdadero", isCorrect: true },
+                { text: "Falso", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Tipos de Aprendizaje",
+            question: "Verdadero o Falso: El problema de detección de anomalías consiste en reducir la dimensionalidad para crear una nueva representación.",
+            options: [
+                { text: "Verdadero", isCorrect: false },
+                { text: "Falso", isCorrect: true }
+            ]
+        },
+        {
+            topic: "Tipos de Aprendizaje",
+            question: "¿Qué tipos de aprendizajes principales existen dentro del machine learning?",
+            options: [
+                { text: "Supervisado, Automático y General", isCorrect: false },
+                { text: "Aprendizaje supervisado, no supervisado y por refuerzo", isCorrect: true },
+                { text: "Solo supervisado y no supervisado", isCorrect: false },
+                { text: "Solo automático y por refuerzo", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Tipos de Aprendizaje",
+            question: "En el aprendizaje supervisado encontramos los siguientes tipos de problemas:",
+            options: [
+                { text: "Problemas de regresión y clasificación", isCorrect: true },
+                { text: "Problemas de no linealidad y generalización", isCorrect: false },
+                { text: "Solo problemas de regresión", isCorrect: false },
+                { text: "Solo problemas de clasificación", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Teoría General",
+            question: "Señale la afirmación FALSA sobre el aprendizaje automático:",
+            options: [
+                { text: "El aprendizaje automático es una rama de la IA", isCorrect: false },
+                { text: "El aprendizaje automático es una de las áreas del Machine Learning", isCorrect: false },
+                { text: "Existe un solo algoritmo de aprendizaje automático que se adapta a cualquier circunstancia", isCorrect: true },
+                { text: "Aprendizaje automático y machine learning hacen referencia a lo mismo", isCorrect: false }
+            ]
+        },
+        // --- Regresión ---
+        {
+            topic: "Regresión",
+            question: "Verdadero o Falso: El error cuadrático medio puede llegar a ser muy grande.",
+            options: [
+                { text: "Verdadero", isCorrect: true },
+                { text: "Falso", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Regresión",
+            question: "Verdadero o Falso: Al entrenar un modelo de regresión se dividen los datos en entrenamiento y test.",
+            options: [
+                { text: "Verdadero", isCorrect: true },
+                { text: "Falso", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Regresión",
+            question: "Verdadero o Falso: El coeficiente de determinación puede ser un número muy grande (mayor a 1).",
+            options: [
+                { text: "Verdadero", isCorrect: false },
+                { text: "Falso", isCorrect: true }
+            ]
+        },
+        // --- Clasificación ---
+        {
+            topic: "Clasificación",
+            question: "La clasificación puede ser de tipo:",
+            options: [
+                { text: "Lineal y Polinómica", isCorrect: false },
+                { text: "Binaria y Multiclase", isCorrect: true },
+                { text: "Regresiva y Lineal", isCorrect: false },
+                { text: "Supervisada y No supervisada", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Clasificación",
+            question: "Si la probabilidad de pertenencia es 0.55 para la clase 1 y 0.45 para la clase 2, se puede afirmar que:",
+            options: [
+                { text: "Pertenece a la clase 2", isCorrect: false },
+                { text: "No debería clasificarse la instancia", isCorrect: false },
+                { text: "Pertenece a la clase 1 y el límite de pertenencia está muy cercano", isCorrect: true },
+                { text: "El modelo ha fallado", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Clasificación",
+            question: "¿Qué vectores se deben tener preparados antes de crear la matriz de confusión?",
+            options: [
+                { text: "La tabla con verdaderos positivos y negativos", isCorrect: false },
+                { text: "El vector de clasificación real y el vector de clasificación predicha", isCorrect: true },
+                { text: "La variable a predecir", isCorrect: false },
+                { text: "Solo los datos de test", isCorrect: false }
+            ]
+        },
+        // --- Evaluación (ROC) ---
+        {
+            topic: "Curvas ROC",
+            question: "Verdadero o Falso: Una curva ROC es la representación gráfica de la tasa de verdaderos positivos contra la tasa de falsos positivos.",
+            options: [
+                { text: "Verdadero", isCorrect: true },
+                { text: "Falso", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Curvas ROC",
+            question: "Verdadero o Falso: El objetivo directo de una curva ROC es clasificar bien las instancias.",
+            options: [
+                { text: "Verdadero", isCorrect: false },
+                { text: "Falso", isCorrect: true }
+            ]
+        },
+        {
+            topic: "Curvas ROC",
+            question: "Verdadero o Falso: El área bajo la curva (AUC) superior a 0,7 es un indicador de un buen modelo.",
+            options: [
+                { text: "Verdadero", isCorrect: true },
+                { text: "Falso", isCorrect: false }
+            ]
+        }
+    ];
+
+    // Variables de Estado
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let userHistory = [];
+    let answered = false;
+
+    // Referencias
+    const questionEl = document.getElementById('question');
+    const optionsEl = document.getElementById('options');
+    const feedbackEl = document.getElementById('feedback');
+    const nextBtn = document.getElementById('next-btn');
+    const progressFill = document.getElementById('progress');
+    const questionScreen = document.getElementById('question-screen');
+    const resultScreen = document.getElementById('result-screen');
+    const finalGradeEl = document.getElementById('final-grade');
+    const finalRawScoreEl = document.getElementById('final-raw-score');
+    const controlsEl = document.getElementById('controls');
+    const reviewListEl = document.getElementById('review-list');
+    const recBox = document.getElementById('rec-box');
+    const recText = document.getElementById('rec-text');
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function initQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        userHistory = [];
+        
+        // Deep clone & Shuffle
+        let clonedData = JSON.parse(JSON.stringify(rawData));
+        currentQuestions = shuffleArray(clonedData);
+        currentQuestions.forEach(q => q.options = shuffleArray(q.options));
+
+        questionScreen.style.display = 'block';
+        controlsEl.style.display = 'flex';
+        resultScreen.style.display = 'none';
+        
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        answered = false;
+        feedbackEl.style.display = 'none';
+        nextBtn.disabled = true;
+        
+        const qData = currentQuestions[currentQuestionIndex];
+        questionEl.innerText = `${currentQuestionIndex + 1}. ${qData.question}`;
+        
+        optionsEl.innerHTML = '';
+        
+        qData.options.forEach((opt) => {
+            const btn = document.createElement('button');
+            btn.innerText = opt.text;
+            btn.classList.add('option-btn');
+            btn.onclick = () => checkAnswer(opt, btn);
+            optionsEl.appendChild(btn);
+        });
+
+        updateProgress();
+    }
+
+    function checkAnswer(selectedOption, btnElement) {
+        if (answered) return;
+        answered = true;
+
+        const isCorrect = selectedOption.isCorrect;
+        
+        // Guardamos también el topic
+        userHistory.push({
+            question: currentQuestions[currentQuestionIndex].question,
+            topic: currentQuestions[currentQuestionIndex].topic,
+            userChoice: selectedOption.text,
+            correctChoice: currentQuestions[currentQuestionIndex].options.find(o => o.isCorrect).text,
+            wasCorrect: isCorrect
+        });
+
+        const buttons = optionsEl.querySelectorAll('.option-btn');
+        
+        if (isCorrect) {
+            score++;
+            btnElement.classList.add('correct');
+            feedbackEl.innerHTML = '<span style="color: var(--success-color)">¡Correcto!</span>';
+        } else {
+            btnElement.classList.add('incorrect');
+            buttons.forEach(b => {
+                if(b.innerText === userHistory[userHistory.length-1].correctChoice) {
+                    b.classList.add('correct');
+                }
+            });
+            feedbackEl.innerHTML = '<span style="color: var(--error-color)">Incorrecto.</span> Respuesta correcta marcada en verde.';
+        }
+
+        feedbackEl.style.display = 'block';
+        nextBtn.disabled = false;
+        buttons.forEach(btn => btn.disabled = true);
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < currentQuestions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function updateProgress() {
+        const percentage = ((currentQuestionIndex) / currentQuestions.length) * 100;
+        progressFill.style.width = `${percentage}%`;
+    }
+
+    function showResults() {
+        questionScreen.style.display = 'none';
+        controlsEl.style.display = 'none';
+        resultScreen.style.display = 'block';
+        progressFill.style.width = '100%';
+        
+        // 1. Calcular Nota (Base 10)
+        const total = currentQuestions.length;
+        const grade = (score / total) * 10;
+        
+        // Mostrar Nota
+        finalGradeEl.innerText = grade.toFixed(1); // ej. 8.5
+        
+        // Color de la nota según desempeño
+        const circle = document.querySelector('.grade-circle');
+        if(grade >= 9) circle.style.backgroundColor = '#22c55e'; // Verde fuerte
+        else if(grade >= 6) circle.style.backgroundColor = '#eab308'; // Amarillo
+        else circle.style.backgroundColor = '#ef4444'; // Rojo
+
+        // Mostrar Aciertos pequeño
+        finalRawScoreEl.innerText = `${score} / ${total}`;
+
+        // 2. Generar Recomendación Inteligente
+        generateRecommendation(grade);
+
+        // 3. Generar Resumen
+        generateReview();
+    }
+
+    function generateRecommendation(grade) {
+        recBox.style.display = 'block';
+        
+        if (grade === 10) {
+            recText.innerText = "¡Excelente! Has dominado todos los conceptos. Solo mantén un repaso ligero antes del examen.";
+            return;
+        }
+
+        // Buscar temas con errores
+        const wrongTopics = {};
+        userHistory.forEach(item => {
+            if (!item.wasCorrect) {
+                if (!wrongTopics[item.topic]) wrongTopics[item.topic] = 0;
+                wrongTopics[item.topic]++;
+            }
+        });
+
+        // Convertir a array y ordenar por frecuencia de error
+        const topicsSorted = Object.keys(wrongTopics).sort((a,b) => wrongTopics[b] - wrongTopics[a]);
+
+        if (topicsSorted.length > 0) {
+            let msg = "Para mejorar tu nota, enfócate en repasar los siguientes temas donde tuviste más fallos: ";
+            // Ponemos en negrita los top 3 temas
+            const topTopics = topicsSorted.slice(0, 3).map(t => `<b>${t}</b>`);
+            msg += topTopics.join(", ") + ".";
+            
+            if(grade < 6) {
+                msg += "<br><br>Tu nota es baja, te recomiendo volver a leer la teoría general antes de reintentar.";
+            }
+            recText.innerHTML = msg;
+        } else {
+            recText.innerText = "Revisa los detalles abajo para ver tus pequeños errores puntuales.";
+        }
+    }
+
+    function generateReview() {
+        reviewListEl.innerHTML = "<h3>Resumen detallado:</h3>";
+        
+        userHistory.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.classList.add('review-item');
+            div.classList.add(item.wasCorrect ? 'correct-item' : 'wrong-item');
+            
+            div.innerHTML = `
+                <div class="review-q">
+                    ${index + 1}. ${item.question} 
+                    <span class="tag-pill">${item.topic}</span>
+                </div>
+                <div>Tu respuesta: <b>${item.userChoice}</b></div>
+                ${!item.wasCorrect ? `<div style="color:var(--success-color); margin-top:4px;">Correcta: <b>${item.correctChoice}</b></div>` : ''}
+            `;
+            
+            reviewListEl.appendChild(div);
+        });
+    }
+
+    // Iniciar
+    initQuiz();
+
+</script>
+</body>
+</html>
