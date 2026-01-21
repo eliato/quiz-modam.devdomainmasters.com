@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz ML - Master Edition</title>
+    <title>Quiz ML - Master Edition (57 Preguntas)</title>
     <style>
         :root {
             --primary-color: #2563eb;
@@ -256,7 +256,7 @@
 </div>
 
 <script>
-    // --- BASE DE DATOS MASIVA (45 Preguntas) ---
+    // --- BASE DE DATOS MASIVA (57 Preguntas) ---
     const rawData = [
         // === BLOQUE 1: FUNDAMENTOS ===
         {
@@ -545,7 +545,7 @@
                 { text: "La solución a cada instancia", isCorrect: false }
             ]
         },
-        // === BLOQUE 6: NUEVAS PREGUNTAS (Overfitting, Bagging, Random Forest) ===
+        // === BLOQUE 6: OVERFITTING, BAGGING, RANDOM FOREST ===
         {
             topic: "Árboles de Decisión",
             question: "Los árboles de decisión complejos pueden caer en *overfitting*:",
@@ -688,6 +688,121 @@
                 { text: "Gestiona muy bien los datos faltantes", isCorrect: false },
                 { text: "Funciona bien en la mayoría de problemas", isCorrect: false },
                 { text: "Es robusto ante ruido", isCorrect: false }
+            ]
+        },
+        // === BLOQUE 7: NUEVAS (ENSAMBLE, BOOSTING, SVM) ===
+        {
+            topic: "Ensamble / Bagging",
+            question: "Las técnicas de ensamble de modelos hacen referencia a:",
+            options: [
+                { text: "Construir varios modelos y combinar o agregar sus resultados", isCorrect: true },
+                { text: "Crear varios modelos y elegir el mejor individual", isCorrect: false },
+                { text: "Crear un solo modelo y ejecutarlo varias veces", isCorrect: false },
+                { text: "Elegir el modelo con métricas más altas", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Ensamble / Bagging",
+            question: "El término varianza de un modelo habla de:",
+            options: [
+                { text: "Cuánto cambia un modelo dependiendo de los datos de entrenamiento utilizados", isCorrect: true },
+                { text: "Un modelo que cambia constantemente en ejecución", isCorrect: false },
+                { text: "Resultados diferentes tras entrenar varias veces igual", isCorrect: false },
+                { text: "Modelos estáticos que no cambian", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Ensamble / Bagging",
+            question: "«Bootstrapping» significa:",
+            options: [
+                { text: "Método estadístico para estimar la distribución por medio del muestreo con reemplazamiento", isCorrect: true },
+                { text: "Combinación de modelos con datos aleatorios", isCorrect: false },
+                { text: "Ver cuánto de significativo es un resultado", isCorrect: false },
+                { text: "Ensamble sin reemplazo", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Ensamble / Bagging",
+            question: "El método de *bagging* permite:",
+            options: [
+                { text: "Reducir la varianza de un método de machine learning", isCorrect: true },
+                { text: "Calcular la varianza de varios métodos", isCorrect: false },
+                { text: "Aumentar el sesgo significativamente", isCorrect: false },
+                { text: "Crear modelos secuenciales", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Ensamble / Bagging",
+            question: "Es falso si hablamos de *bagging classification trees*:",
+            options: [
+                { text: "Cada modelo del conjunto puede ser un algoritmo diferente (ej. SVM + Árbol)", isCorrect: true },
+                { text: "Es un modelo que ensambla varios árboles de decisión", isCorrect: false },
+                { text: "Estamos hablando del algoritmo base de Random Forest", isCorrect: false },
+                { text: "Se entrenan B conjuntos de entrenamiento distintos", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Ensamble / Bagging",
+            question: "Cómo se obtiene la predicción de las instancias de test utilizando *bagging*:",
+            options: [
+                { text: "Voto mayoritario o promedio de la predicción de todos los modelos", isCorrect: true },
+                { text: "Promedio de los primeros K modelos", isCorrect: false },
+                { text: "Mediana de todos los valores", isCorrect: false },
+                { text: "Validación cruzada", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Boosting",
+            question: "Los métodos *boosting* construyen los modelos de forma secuencial:",
+            options: [
+                { text: "Verdadero", isCorrect: true },
+                { text: "Falso", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Boosting",
+            question: "Los métodos *boosting* ayudan a reducir el sesgo:",
+            options: [
+                { text: "Verdadero", isCorrect: true },
+                { text: "Falso", isCorrect: false }
+            ]
+        },
+        {
+            topic: "Boosting",
+            question: "En el método *boosting* se crean múltiples copias del *dataset* original usando *bootstrap*:",
+            options: [
+                { text: "Verdadero", isCorrect: false },
+                { text: "Falso", isCorrect: true }
+            ]
+        },
+        {
+            topic: "SVM (Vectores de Soporte)",
+            question: "En las máquinas de vectores de soporte (SVM) es cierto que:",
+            options: [
+                { text: "Se crea un espacio de características superior en dimensiones al espacio de entrada", isCorrect: true },
+                { text: "No se enriquece el espacio de características", isCorrect: false },
+                { text: "El espacio de entrada es siempre mayor al de características", isCorrect: false },
+                { text: "No se utilizan características", isCorrect: false }
+            ]
+        },
+        {
+            topic: "SVM (Vectores de Soporte)",
+            question: "El hiperplano es:",
+            options: [
+                { text: "Una recta en 2D y un plano en 3D (depende de la dimensión)", isCorrect: true },
+                { text: "Siempre una recta sin importar la dimensión", isCorrect: false },
+                { text: "Siempre un plano en dos dimensiones", isCorrect: false },
+                { text: "Un cubo en tres dimensiones", isCorrect: false }
+            ]
+        },
+        {
+            topic: "SVM (Vectores de Soporte)",
+            question: "Es FALSO cuando hablamos de SVM:",
+            options: [
+                { text: "Fueron inventadas por Bayes", isCorrect: true },
+                { text: "El término viene del inglés Support Vector Machines", isCorrect: false },
+                { text: "Fueron inventadas por Vladimir Vapnik", isCorrect: false },
+                { text: "Son eficaces en espacios de alta dimensión", isCorrect: false }
             ]
         }
     ];
@@ -834,7 +949,7 @@
         recBox.style.display = 'block';
         
         if (grade === 10) {
-            recText.innerText = "¡Excelente! Has dominado todos los conceptos. Solo mantén un repaso ligero.";
+            recText.innerText = "¡Excelente! Has dominado todos los conceptos.";
             return;
         }
 
@@ -849,13 +964,9 @@
         const topicsSorted = Object.keys(wrongTopics).sort((a,b) => wrongTopics[b] - wrongTopics[a]);
 
         if (topicsSorted.length > 0) {
-            let msg = "Para mejorar tu nota, repasa los siguientes temas donde tuviste más fallos: ";
+            let msg = "Para mejorar tu nota, repasa: ";
             const topTopics = topicsSorted.slice(0, 3).map(t => `<b>${t}</b>`);
             msg += topTopics.join(", ") + ".";
-            
-            if(grade < 6) {
-                msg += "<br><br>Nota: Te recomiendo releer la teoría de árboles de decisión y clasificación antes de reintentar.";
-            }
             recText.innerHTML = msg;
         } else {
             recText.innerText = "Revisa los detalles abajo para ver tus errores puntuales.";
