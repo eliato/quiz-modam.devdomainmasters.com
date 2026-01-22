@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz ML - Universe Edition (72 Preguntas)</title>
+    <title>Quiz ML - Master Edition con Feedback</title>
     <style>
         :root {
             --primary-color: #2563eb;
@@ -112,10 +112,24 @@
         }
 
         .feedback {
-            margin-top: 15px;
-            padding: 10px;
-            font-weight: 600;
+            margin-top: 20px;
             display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .explanation-box {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--primary-color);
+            padding: 10px 15px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #4b5563;
+            line-height: 1.4;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .controls {
@@ -256,12 +270,13 @@
 </div>
 
 <script>
-    // --- BASE DE DATOS COMPLETA (72 Preguntas) ---
+    // --- BASE DE DATOS MASIVA (72 Preguntas con Explicaciones) ---
     const rawData = [
         // === BLOQUE 1: FUNDAMENTOS ===
         {
             topic: "Procesos de ML",
             question: "¿Cuál NO es una etapa dentro del proceso general de modelado del aprendizaje automático?",
+            explanation: "Las etapas clave son Definir el problema, Dividir datos y Entrenar. 'Numerar los ejemplos' es irrelevante para el aprendizaje del modelo.",
             options: [
                 { text: "Definir el problema", isCorrect: false },
                 { text: "Dividir el conjunto de entrenamiento y test", isCorrect: false },
@@ -272,6 +287,7 @@
         {
             topic: "Validación de Modelos",
             question: "La validación cruzada consiste en:",
+            explanation: "Cross-validation implica rotar qué parte de los datos se usa para validar. Se divide en K grupos y se iteran K veces.",
             options: [
                 { text: "Generar 5 conjuntos de entrenamiento para entrenar el modelo", isCorrect: false },
                 { text: "Dividir en k grupos los datos y usar uno como test en cada iteración", isCorrect: true },
@@ -282,6 +298,7 @@
         {
             topic: "Validación de Modelos",
             question: "En el ejercicio del iris realizado en Python, la alta exactitud es debido a:",
+            explanation: "El dataset Iris es famoso por ser simple, pequeño y tener clases muy separables, lo que facilita que cualquier modelo logre alta exactitud.",
             options: [
                 { text: "Es producto del azar", isCorrect: false },
                 { text: "Es un dataset muy sencillo que alcanza buena exactitud con cualquier modelo", isCorrect: true },
@@ -293,6 +310,7 @@
         {
             topic: "Terminología Básica",
             question: "¿Cuál NO es un nombre con el que se le conoce a la variable respuesta?",
+            explanation: "La variable respuesta se llama Clase, Objetivo (Target) o Label. 'Regressors' suele referirse a las variables predictoras.",
             options: [
                 { text: "Clase", isCorrect: false },
                 { text: "Variable objetivo", isCorrect: false },
@@ -303,6 +321,7 @@
         {
             topic: "Terminología Básica",
             question: "¿Cuál NO es un nombre para la variable predictora?",
+            explanation: "La variable predictora es el Input, Feature o Variable Independiente. 'Clase' es lo que queremos predecir (output).",
             options: [
                 { text: "Entrada o input", isCorrect: false },
                 { text: "Class o clase", isCorrect: true },
@@ -313,6 +332,7 @@
         {
             topic: "Teoría de Funciones",
             question: "A la función f(x) ideal se la conoce con el nombre de:",
+            explanation: "En estadística y ML, la función ideal que mapea perfectamente X a Y se denomina función de regresión verdadera.",
             options: [
                 { text: "Función estimadora", isCorrect: false },
                 { text: "Función perfecta", isCorrect: false },
@@ -324,6 +344,7 @@
         {
             topic: "Tipos de Aprendizaje",
             question: "Verdadero o Falso: El aprendizaje supervisado se divide en problemas de agrupamiento y detección de anomalías.",
+            explanation: "Falso. El supervisado se divide en Regresión (números) y Clasificación (categorías). Agrupamiento es No Supervisado.",
             options: [
                 { text: "Verdadero", isCorrect: false },
                 { text: "Falso", isCorrect: true }
@@ -332,6 +353,7 @@
         {
             topic: "Tipos de Aprendizaje",
             question: "Verdadero o Falso: El problema de agrupamiento consiste en dividir los datos en grupos con características similares.",
+            explanation: "Verdadero. El Clustering busca agrupar instancias que se parecen entre sí sin conocer sus etiquetas.",
             options: [
                 { text: "Verdadero", isCorrect: true },
                 { text: "Falso", isCorrect: false }
@@ -340,6 +362,7 @@
         {
             topic: "Tipos de Aprendizaje",
             question: "Verdadero o Falso: El problema de detección de anomalías consiste en reducir la dimensionalidad para crear una nueva representación.",
+            explanation: "Falso. Detección de anomalías busca datos atípicos (outliers). Reducir dimensionalidad es PCA, t-SNE, etc.",
             options: [
                 { text: "Verdadero", isCorrect: false },
                 { text: "Falso", isCorrect: true }
@@ -348,6 +371,7 @@
         {
             topic: "Tipos de Aprendizaje",
             question: "¿Qué tipos de aprendizajes principales existen dentro del machine learning?",
+            explanation: "Los tres pilares son: Supervisado (con etiquetas), No Supervisado (sin etiquetas) y Refuerzo (premios/castigos).",
             options: [
                 { text: "Supervisado, Automático y General", isCorrect: false },
                 { text: "Aprendizaje supervisado, no supervisado y por refuerzo", isCorrect: true },
@@ -358,6 +382,7 @@
         {
             topic: "Tipos de Aprendizaje",
             question: "En el aprendizaje supervisado encontramos los siguientes tipos de problemas:",
+            explanation: "Si predices una categoría es Clasificación; si predices un valor continuo numérico es Regresión.",
             options: [
                 { text: "Problemas de regresión y clasificación", isCorrect: true },
                 { text: "Problemas de no linealidad y generalización", isCorrect: false },
@@ -368,6 +393,7 @@
         {
             topic: "Teoría General",
             question: "Señale la afirmación FALSA sobre el aprendizaje automático:",
+            explanation: "No existe un 'algoritmo maestro'. El teorema 'No Free Lunch' dice que ningún algoritmo es el mejor para todos los problemas.",
             options: [
                 { text: "El aprendizaje automático es una rama de la IA", isCorrect: false },
                 { text: "El aprendizaje automático es una de las áreas del Machine Learning", isCorrect: false },
@@ -379,6 +405,7 @@
         {
             topic: "Regresión",
             question: "Verdadero o Falso: El error cuadrático medio puede llegar a ser muy grande.",
+            explanation: "Verdadero. Al no estar acotado (como el R2 que va de 0 a 1), el MSE puede ser enorme dependiendo de la escala de los datos.",
             options: [
                 { text: "Verdadero", isCorrect: true },
                 { text: "Falso", isCorrect: false }
@@ -387,6 +414,7 @@
         {
             topic: "Regresión",
             question: "Verdadero o Falso: Al entrenar un modelo de regresión se dividen los datos en entrenamiento y test.",
+            explanation: "Verdadero. Siempre se debe separar data para validar que el modelo generaliza y no solo memoriza.",
             options: [
                 { text: "Verdadero", isCorrect: true },
                 { text: "Falso", isCorrect: false }
@@ -395,6 +423,7 @@
         {
             topic: "Regresión",
             question: "Verdadero o Falso: El coeficiente de determinación puede ser un número muy grande (mayor a 1).",
+            explanation: "Falso. El R-cuadrado (R2) tiene un valor máximo de 1 (predicción perfecta). Si es negativo, el modelo es pésimo.",
             options: [
                 { text: "Verdadero", isCorrect: false },
                 { text: "Falso", isCorrect: true }
@@ -403,6 +432,7 @@
         {
             topic: "Clasificación",
             question: "La clasificación puede ser de tipo:",
+            explanation: "Binaria (Sí/No, 0/1) o Multiclase (Perro/Gato/Pájaro).",
             options: [
                 { text: "Lineal y Polinómica", isCorrect: false },
                 { text: "Binaria y Multiclase", isCorrect: true },
@@ -413,6 +443,7 @@
         {
             topic: "Clasificación",
             question: "Si la probabilidad de pertenencia es 0.55 para la clase 1 y 0.45 para la clase 2, se puede afirmar que:",
+            explanation: "El modelo predice la Clase 1 porque 0.55 > 0.45, pero la confianza es baja (está muy cerca del límite de decisión 0.50).",
             options: [
                 { text: "Pertenece a la clase 2", isCorrect: false },
                 { text: "No debería clasificarse la instancia", isCorrect: false },
@@ -423,6 +454,7 @@
         {
             topic: "Clasificación",
             question: "¿Qué vectores se deben tener preparados antes de crear la matriz de confusión?",
+            explanation: "Para comparar, necesitas el vector de las etiquetas reales (Ground Truth) y el vector de lo que predijo tu modelo.",
             options: [
                 { text: "La tabla con verdaderos positivos y negativos", isCorrect: false },
                 { text: "El vector de clasificación real y el vector de clasificación predicha", isCorrect: true },
@@ -434,6 +466,7 @@
         {
             topic: "Curvas ROC",
             question: "Verdadero o Falso: Una curva ROC es la representación gráfica de la tasa de verdaderos positivos contra la tasa de falsos positivos.",
+            explanation: "Verdadero. Muestra el compromiso entre sensibilidad (TPR) y 1-especificidad (FPR).",
             options: [
                 { text: "Verdadero", isCorrect: true },
                 { text: "Falso", isCorrect: false }
@@ -442,6 +475,7 @@
         {
             topic: "Curvas ROC",
             question: "Verdadero o Falso: El objetivo directo de una curva ROC es clasificar bien las instancias.",
+            explanation: "Falso. Su objetivo es evaluar la capacidad de diagnóstico del modelo y ayudar a elegir el mejor umbral (threshold).",
             options: [
                 { text: "Verdadero", isCorrect: false },
                 { text: "Falso", isCorrect: true }
@@ -450,6 +484,7 @@
         {
             topic: "Curvas ROC",
             question: "Verdadero o Falso: El área bajo la curva (AUC) superior a 0,7 es un indicador de un buen modelo.",
+            explanation: "Verdadero. 0.5 es azar. 1.0 es perfecto. Arriba de 0.7 empieza a considerarse aceptable/bueno.",
             options: [
                 { text: "Verdadero", isCorrect: true },
                 { text: "Falso", isCorrect: false }
@@ -458,6 +493,7 @@
         {
             topic: "Naïve Bayes",
             question: "En la fórmula de Bayes, el término P(Xi | Z) hace referencia a:",
+            explanation: "Es la probabilidad a posteriori (o verosimilitud dependiendo de la notación estricta, pero en este contexto se refiere a la probabilidad condicionada inversa).",
             options: [
                 { text: "Probabilidad a posteriori", isCorrect: true },
                 { text: "Probabilidad de Z en la hipótesis Xi", isCorrect: false },
@@ -468,6 +504,7 @@
         {
             topic: "Naïve Bayes",
             question: "Si decimos que la probabilidad de que un mensaje sea spam es de 0.2 estamos hablando de:",
+            explanation: "Es la probabilidad A Priori, es decir, lo que sabemos antes de analizar el contenido del mensaje (el 20% de todo el correo es spam).",
             options: [
                 { text: "Probabilidad a posteriori", isCorrect: false },
                 { text: "Probabilidad a priori", isCorrect: true },
@@ -478,6 +515,7 @@
         {
             topic: "Naïve Bayes",
             question: "Si la probabilidad de que un mensaje sea spam es de 0.7 se podría decir que:",
+            explanation: "Al ser mayor a 0.5, el modelo lo clasifica como la clase positiva (Spam).",
             options: [
                 { text: "Es muy probable que sea ham", isCorrect: false },
                 { text: "Es muy probable que sea spam", isCorrect: true },
@@ -488,6 +526,7 @@
         {
             topic: "Naïve Bayes",
             question: "Los tipos de datos que se pueden utilizar en Naïve Bayes pueden ser:",
+            explanation: "Originalmente es para categóricos (frecuencias), pero con transformaciones (Gaussian NB) acepta numéricos.",
             options: [
                 { text: "Numéricos", isCorrect: false },
                 { text: "Categóricos", isCorrect: false },
@@ -498,6 +537,7 @@
         {
             topic: "Naïve Bayes",
             question: "Una ventaja del clasificador Naïve Bayes es:",
+            explanation: "Es extremadamente rápido y eficiente porque asume independencia, lo que simplifica enormemente los cálculos.",
             options: [
                 { text: "Es fácil de integrar", isCorrect: false },
                 { text: "Se ajusta correctamente a los datos", isCorrect: false },
@@ -508,6 +548,7 @@
         {
             topic: "Naïve Bayes",
             question: "Una desventaja del clasificador Naïve Bayes es:",
+            explanation: "Su asunción de 'ingenuidad' (que las variables no tienen relación entre ellas) casi nunca se cumple en la vida real.",
             options: [
                 { text: "Es fácil de integrar", isCorrect: false },
                 { text: "Se ajusta correctamente a los datos", isCorrect: false },
@@ -518,6 +559,7 @@
         {
             topic: "Árboles de Decisión",
             question: "¿Cuál es la base de los árboles de decisión?",
+            explanation: "Usan medidas como Entropía o Índice Gini (Teoría de la información) para decidir dónde cortar.",
             options: [
                 { text: "Teoría de juegos", isCorrect: false },
                 { text: "Análisis estadístico y teoría de la información", isCorrect: true },
@@ -528,6 +570,7 @@
         {
             topic: "Árboles de Decisión",
             question: "¿Qué representa cada nodo interno del árbol?",
+            explanation: "Los nodos internos son preguntas o condiciones sobre una característica (ej. ¿Edad > 18?).",
             options: [
                 { text: "La probabilidad de una característica", isCorrect: false },
                 { text: "Una característica", isCorrect: true },
@@ -538,6 +581,7 @@
         {
             topic: "Árboles de Decisión",
             question: "¿Qué representa cada nodo hoja del árbol?",
+            explanation: "Las hojas son el final del camino y representan la decisión final (Clase o Valor numérico).",
             options: [
                 { text: "La probabilidad de una característica", isCorrect: false },
                 { text: "Una característica", isCorrect: false },
@@ -549,6 +593,7 @@
         {
             topic: "Árboles de Decisión",
             question: "Los árboles de decisión complejos pueden caer en *overfitting*:",
+            explanation: "Si el árbol crece demasiado, empieza a memorizar el ruido de los datos de entrenamiento.",
             options: [
                 { text: "Verdadero", isCorrect: true },
                 { text: "Falso", isCorrect: false }
@@ -557,6 +602,7 @@
         {
             topic: "Árboles de Decisión",
             question: "La estrategia de poda consiste primero generar un árbol grande y luego crear varios subárboles:",
+            explanation: "Falso. La poda (pruning) consiste en cortar ramas que no aportan poder predictivo general, no en crear múltiples árboles.",
             options: [
                 { text: "Verdadero", isCorrect: false },
                 { text: "Falso", isCorrect: true }
@@ -565,6 +611,7 @@
         {
             topic: "Árboles de Decisión",
             question: "Siempre es mejor un algoritmo basado en árboles que un algoritmo basado en modelos lineales:",
+            explanation: "Falso. Si la relación es lineal, una regresión lineal funcionará mejor y será más simple que un árbol.",
             options: [
                 { text: "Verdadero", isCorrect: false },
                 { text: "Falso", isCorrect: true }
@@ -573,6 +620,7 @@
         {
             topic: "Árboles de Decisión",
             question: "Es cierto sobre los árboles grandes:",
+            explanation: "Un árbol con cientos de ramas es muy difícil de visualizar y entender por un humano (pierde interpretabilidad).",
             options: [
                 { text: "Son difíciles de interpretar", isCorrect: true },
                 { text: "Son fáciles de interpretar", isCorrect: false },
@@ -583,6 +631,7 @@
         {
             topic: "Árboles de Decisión",
             question: "Una fortaleza de los árboles de decisión es:",
+            explanation: "Son versátiles: funcionan bien aunque tengas pocos datos o muchos datos.",
             options: [
                 { text: "Se pueden utilizar con pocos o muchos datos", isCorrect: true },
                 { text: "Es difícilmente interpretable", isCorrect: false },
@@ -593,6 +642,7 @@
         {
             topic: "Árboles de Decisión",
             question: "Los árboles de decisión utilizan:",
+            explanation: "El algoritmo selecciona automáticamente las variables que mejor separan los datos (Information Gain), ignorando las irrelevantes.",
             options: [
                 { text: "Todas las variables", isCorrect: false },
                 { text: "Solo variables numéricas", isCorrect: false },
@@ -603,6 +653,7 @@
         {
             topic: "Bagging / RF",
             question: "La selección de variables en la técnica de *bagging* se realiza:",
+            explanation: "Bagging usa Bootstrap: muestreo aleatorio con reemplazo manteniendo el mismo tamaño del dataset original.",
             options: [
                 { text: "Dividiendo el conjunto de entrenamiento en subconjuntos aleatorios con la misma cantidad de individuos", isCorrect: true },
                 { text: "Dividiendo en subconjuntos de diferentes tamaños", isCorrect: false },
@@ -613,6 +664,7 @@
         {
             topic: "Bagging / RF",
             question: "Con cada subconjunto de individuos en Bagging:",
+            explanation: "Cada muestra bootstrap se divide internamente (o usa OOB) para entrenar un modelo y validarlo.",
             options: [
                 { text: "Se usan todos para entrenar un mismo modelo", isCorrect: false },
                 { text: "Se vuelve a dividir (train/test), se entrena un modelo y se evalúa", isCorrect: true },
@@ -623,6 +675,7 @@
         {
             topic: "Bagging / RF",
             question: "«Bagging» significa:",
+            explanation: "Es el acrónimo de 'Bootstrap Aggregating' (o Averaging en regresión).",
             options: [
                 { text: "Bootstrap averaging", isCorrect: true },
                 { text: "Bosques aleatorios", isCorrect: false },
@@ -633,6 +686,7 @@
         {
             topic: "Random Forest",
             question: "La razón por la cual se utilizan un gran número de árboles en RF es:",
+            explanation: "Al tener muchos árboles con distintas características, reducimos la varianza y evitamos que una sola variable domine el modelo.",
             options: [
                 { text: "Para que cada característica tenga la oportunidad de aparecer en varios modelos", isCorrect: true },
                 { text: "No se conoce la razón", isCorrect: false },
@@ -643,6 +697,7 @@
         {
             topic: "Random Forest",
             question: "El «out of bag error» es:",
+            explanation: "OOB Error usa los datos que NO entraron en el muestreo bootstrap para validar el modelo, sin necesidad de un set de validación extra.",
             options: [
                 { text: "Un método de medida de predicción de error cuando se usa bagging", isCorrect: true },
                 { text: "Una medida de sensibilidad", isCorrect: false },
@@ -653,6 +708,7 @@
         {
             topic: "Random Forest",
             question: "¿Cómo se realiza la selección de predictores en un *split* en *random forest*?",
+            explanation: "Esta es la clave de RF: en cada nodo, solo considera un subconjunto aleatorio de variables (m) para decidir el corte.",
             options: [
                 { text: "Selección aleatoria de m predictores (m = raíz, mitad o total)", isCorrect: true },
                 { text: "Selección aleatoria, número difiere en cada split", isCorrect: false },
@@ -663,6 +719,7 @@
         {
             topic: "Random Forest",
             question: "Al entrenarse un modelo *random forest* se puede obtener:",
+            explanation: "RF permite calcular la 'Feature Importance' viendo cuánto disminuye el error al usar cada variable.",
             options: [
                 { text: "El error de cada árbol y la importancia de las características", isCorrect: true },
                 { text: "La explicación de la decisión de cada árbol", isCorrect: false },
@@ -673,6 +730,7 @@
         {
             topic: "Random Forest",
             question: "*Random forest* puede funcionar con variables:",
+            explanation: "Es muy flexible y acepta todo tipo de datos: categorías, números continuos, discretos, etc.",
             options: [
                 { text: "Categóricas, Continuas y Discretas", isCorrect: true },
                 { text: "Solo Categóricas", isCorrect: false },
@@ -683,6 +741,7 @@
         {
             topic: "Random Forest",
             question: "Es FALSO cuando hablamos de *random forest*:",
+            explanation: "Aunque es robusto, NO es fácilmente interpretable (caja negra) y necesita bastantes datos para brillar.",
             options: [
                 { text: "Es fácilmente interpretable y trabaja solo con pocos datos", isCorrect: true },
                 { text: "Gestiona muy bien los datos faltantes", isCorrect: false },
@@ -694,6 +753,7 @@
         {
             topic: "Ensamble / Bagging",
             question: "Las técnicas de ensamble de modelos hacen referencia a:",
+            explanation: "La idea central es que 'muchos modelos débiles juntos hacen uno fuerte'.",
             options: [
                 { text: "Construir varios modelos y combinar o agregar sus resultados", isCorrect: true },
                 { text: "Crear varios modelos y elegir el mejor individual", isCorrect: false },
@@ -704,6 +764,7 @@
         {
             topic: "Ensamble / Bagging",
             question: "El término varianza de un modelo habla de:",
+            explanation: "Varianza alta significa que si cambias un poco los datos de entrenamiento, el modelo cambia radicalmente (overfitting).",
             options: [
                 { text: "Cuánto cambia un modelo dependiendo de los datos de entrenamiento utilizados", isCorrect: true },
                 { text: "Un modelo que cambia constantemente en ejecución", isCorrect: false },
@@ -714,6 +775,7 @@
         {
             topic: "Ensamble / Bagging",
             question: "«Bootstrapping» significa:",
+            explanation: "Es la técnica estadística de remuestreo con reemplazo para estimar propiedades de una población.",
             options: [
                 { text: "Método estadístico para estimar la distribución por medio del muestreo con reemplazamiento", isCorrect: true },
                 { text: "Combinación de modelos con datos aleatorios", isCorrect: false },
@@ -724,6 +786,7 @@
         {
             topic: "Ensamble / Bagging",
             question: "El método de *bagging* permite:",
+            explanation: "Al promediar muchos modelos, se suaviza el ruido y se reduce la varianza (el error por sensibilidad a los datos).",
             options: [
                 { text: "Reducir la varianza de un método de machine learning", isCorrect: true },
                 { text: "Calcular la varianza de varios métodos", isCorrect: false },
@@ -734,6 +797,7 @@
         {
             topic: "Ensamble / Bagging",
             question: "Es falso si hablamos de *bagging classification trees*:",
+            explanation: "Para que sea Bagging puro, todos los modelos base deben ser del mismo tipo (ej. todos árboles).",
             options: [
                 { text: "Cada modelo del conjunto puede ser un algoritmo diferente (ej. SVM + Árbol)", isCorrect: true },
                 { text: "Es un modelo que ensambla varios árboles de decisión", isCorrect: false },
@@ -744,6 +808,7 @@
         {
             topic: "Ensamble / Bagging",
             question: "Cómo se obtiene la predicción de las instancias de test utilizando *bagging*:",
+            explanation: "En clasificación es 'Voto Mayoritario' (moda); en regresión es 'Promedio' (media).",
             options: [
                 { text: "Voto mayoritario o promedio de la predicción de todos los modelos", isCorrect: true },
                 { text: "Promedio de los primeros K modelos", isCorrect: false },
@@ -754,6 +819,7 @@
         {
             topic: "Boosting",
             question: "Los métodos *boosting* construyen los modelos de forma secuencial:",
+            explanation: "Verdadero. Cada modelo intenta corregir los errores del anterior (a diferencia de Bagging que es paralelo).",
             options: [
                 { text: "Verdadero", isCorrect: true },
                 { text: "Falso", isCorrect: false }
@@ -762,6 +828,7 @@
         {
             topic: "Boosting",
             question: "Los métodos *boosting* ayudan a reducir el sesgo:",
+            explanation: "Verdadero. Al enfocarse en los errores difíciles, convierte modelos débiles (alto sesgo) en uno fuerte.",
             options: [
                 { text: "Verdadero", isCorrect: true },
                 { text: "Falso", isCorrect: false }
@@ -770,6 +837,7 @@
         {
             topic: "Boosting",
             question: "En el método *boosting* se crean múltiples copias del *dataset* original usando *bootstrap*:",
+            explanation: "Falso. Boosting usa el mismo dataset pero asigna PESOS diferentes a las instancias según si fueron mal clasificadas.",
             options: [
                 { text: "Verdadero", isCorrect: false },
                 { text: "Falso", isCorrect: true }
@@ -778,18 +846,20 @@
         {
             topic: "SVM (Vectores de Soporte)",
             question: "En las máquinas de vectores de soporte (SVM) es cierto que:",
+            explanation: "El 'Kernel Trick' proyecta los datos a dimensiones superiores para hacerlos linealmente separables.",
             options: [
-                { text: "Se crea un espacio de características superior en dimensiones al espacio de entrada", isCorrect: true },
-                { text: "No se enriquece el espacio de características", isCorrect: false },
-                { text: "El espacio de entrada es siempre mayor al de características", isCorrect: false },
-                { text: "No se utilizan características", isCorrect: false }
+                { text: "Se cree un espacio de características superior en dimensiones al espacio de entrada", isCorrect: true },
+                { text: "Se cree un espacio de características", isCorrect: false },
+                { text: "No se enriquece el feature space antes de separar las clases", isCorrect: false },
+                { text: "Que el espacio de características sea superior en dimensiones al espacio de entrada", isCorrect: false }
             ]
         },
         {
             topic: "SVM (Vectores de Soporte)",
             question: "El hiperplano es:",
+            explanation: "En 2D es una línea. En 3D es un plano. En n-dimensiones se llama hiperplano.",
             options: [
-                { text: "Una recta en 2D y un plano en 3D (depende de la dimensión)", isCorrect: true },
+                { text: "Una recta en dos dimensiones y un plano en tres dimensiones", isCorrect: true },
                 { text: "Siempre una recta sin importar la dimensión", isCorrect: false },
                 { text: "Siempre un plano en dos dimensiones", isCorrect: false },
                 { text: "Un cubo en tres dimensiones", isCorrect: false }
@@ -798,6 +868,7 @@
         {
             topic: "SVM (Vectores de Soporte)",
             question: "Es FALSO cuando hablamos de SVM:",
+            explanation: "Fueron inventadas por Vapnik, no por Bayes. Bayes tiene su propio clasificador (Naïve Bayes).",
             options: [
                 { text: "Fueron inventadas por Bayes", isCorrect: true },
                 { text: "El término viene del inglés Support Vector Machines", isCorrect: false },
@@ -809,6 +880,7 @@
         {
             topic: "SVM",
             question: "¿Cómo elegir el mejor hiperplano que separe dos clases?",
+            explanation: "SVM busca maximizar el margen, es decir, la distancia (espacio) entre el hiperplano y los puntos más cercanos de ambas clases.",
             options: [
                 { text: "Hay que buscar aquel que proporcione el mayor espacio entre dos clases", isCorrect: true },
                 { text: "Hay que buscar aquel que proporcione el menor espacio entre dos clases", isCorrect: false },
@@ -819,6 +891,7 @@
         {
             topic: "SVM",
             question: "Es cierto con respecto al parámetro C en SVM:",
+            explanation: "Un C grande implica 'Hard Margin' (poca tolerancia al error, riesgo de overfitting). C pequeño es 'Soft Margin'.",
             options: [
                 { text: "Cuanto más grande sea el C, menos errores se permiten", isCorrect: true },
                 { text: "Un C grande permite muchos errores", isCorrect: false },
@@ -829,6 +902,7 @@
         {
             topic: "SVM",
             question: "Cuando hablamos de expansión de características es cierto que:",
+            explanation: "Buscamos proyectar a una dimensión mayor (D) que la original (p) para encontrar linealidad (D > p).",
             options: [
                 { text: "Se pasa de un espacio p a un espacio D donde D > p", isCorrect: true },
                 { text: "Se pasa de un espacio p a un espacio D donde p > D", isCorrect: false },
@@ -839,8 +913,9 @@
         {
             topic: "SVM (Kernels)",
             question: "Un kernel en SVM es:",
+            explanation: "El Kernel calcula el producto escalar en un espacio dimensional superior sin tener que transformar explícitamente los vectores.",
             options: [
-                { text: "Una función que recibe dos vectores y transforma a un espacio de mayor dimensionalidad", isCorrect: true },
+                { text: "Es una función que recibe dos vectores como parámetros y transforma a un espacio de características de mayor dimensionalidad", isCorrect: true },
                 { text: "Una función que recibe un vector y transforma a un espacio de características mayor", isCorrect: false },
                 { text: "Un truco que utiliza el algoritmo para predecir sin entrenar", isCorrect: false },
                 { text: "Una función que ayuda a elegir instancias de entrenamiento", isCorrect: false }
@@ -849,6 +924,7 @@
         {
             topic: "SVM (Kernels)",
             question: "Es un tipo de kernel muy común:",
+            explanation: "El RBF (Radial Basis Function) es el estándar de facto cuando no se sabe qué kernel usar.",
             options: [
                 { text: "Kernel de base radial", isCorrect: true },
                 { text: "Kernel ingenuo", isCorrect: false },
@@ -859,6 +935,7 @@
         {
             topic: "SVM",
             question: "Se considera una debilidad del algoritmo SVM:",
+            explanation: "Debido a su complejidad cuadrática/cúbica, SVM sufre mucho en rendimiento cuando el dataset es masivo.",
             options: [
                 { text: "Puede ser lento de entrenar si se tienen muchos datos y muchas columnas", isCorrect: true },
                 { text: "Es muy rápido de entrenarse sin importar la cantidad de datos", isCorrect: false },
@@ -869,16 +946,18 @@
         {
             topic: "Redes Neuronales (Perceptrón)",
             question: "Una función de activación es:",
+            explanation: "Es la función matemática que decide si la neurona 'dispara' o no, introduciendo no linealidad al modelo.",
             options: [
-                { text: "Una función que define la salida de una neurona dada una entrada o conjunto de entradas", isCorrect: true },
+                { text: "Una función que define la salida de una neurona dada una entrada o un conjunto de entradas", isCorrect: true },
                 { text: "Una función que utiliza regresión exponencial y lineal", isCorrect: false },
-                { text: "Una función que utiliza regresión logística solamente", isCorrect: false },
+                { text: "Una función que utiliza una regresión logística solamente", isCorrect: false },
                 { text: "Una función que utiliza una regresión exponencial", isCorrect: false }
             ]
         },
         {
             topic: "Redes Neuronales (Perceptrón)",
             question: "Un perceptrón está conformado por:",
+            explanation: "Es la unidad básica: Entradas * Pesos + Bias -> Función de Activación -> Salida.",
             options: [
                 { text: "Nodos que reciben los datos de entrada, pesos sinápticos y una función de activación", isCorrect: true },
                 { text: "Un conjunto de neuronas artificiales", isCorrect: false },
@@ -889,6 +968,7 @@
         {
             topic: "Redes Neuronales (Perceptrón)",
             question: "Década en la que se crea el perceptrón:",
+            explanation: "Frank Rosenblatt inventó el Perceptrón en 1957 (Laboratorio Aeronáutico de Cornell).",
             options: [
                 { text: "1950", isCorrect: true },
                 { text: "1940", isCorrect: false },
@@ -899,6 +979,7 @@
         {
             topic: "Redes Neuronales",
             question: "Las funciones lineales, tangente hiperbólica y gaussiana son funciones de activación:",
+            explanation: "Verdadero. Junto con Sigmoide y ReLU, son las más comunes para modelar comportamientos.",
             options: [
                 { text: "Verdadero", isCorrect: true },
                 { text: "Falso", isCorrect: false }
@@ -907,6 +988,7 @@
         {
             topic: "Redes Neuronales",
             question: "El número de capas de una red neuronal depende del número de características que tenga el conjunto de datos:",
+            explanation: "Falso. El número de capas (profundidad) es un hiperparámetro de diseño, no depende directo de las features de entrada.",
             options: [
                 { text: "Verdadero", isCorrect: false },
                 { text: "Falso", isCorrect: true }
@@ -915,6 +997,7 @@
         {
             topic: "Redes Neuronales",
             question: "El número de neuronas de entrada depende del número de características que tenga el conjunto de datos:",
+            explanation: "Verdadero. La capa de entrada (input layer) debe tener tantas neuronas como columnas/features tenga tu dataset.",
             options: [
                 { text: "Verdadero", isCorrect: true },
                 { text: "Falso", isCorrect: false }
@@ -923,6 +1006,7 @@
         {
             topic: "Redes Neuronales (Backprop)",
             question: "Las fases del algoritmo de *backpropagation* son:",
+            explanation: "Primero se calcula la salida (Forward) y luego se propagan los errores hacia atrás para ajustar pesos (Backward).",
             options: [
                 { text: "Fase forward y Fase backward", isCorrect: true },
                 { text: "Solo Fase de reentrenamiento", isCorrect: false },
@@ -933,8 +1017,9 @@
         {
             topic: "Redes Neuronales (Backprop)",
             question: "Para modificar los pesos de una red se utiliza:",
+            explanation: "Se usa la derivada (gradiente) para saber en qué dirección ajustar los pesos para reducir el error global.",
             options: [
-                { text: "La técnica del gradiente descendente y la derivada de la función de activación", isCorrect: true },
+                { text: "La derivada de la función de activación de cada neurona para identificar el gradiente de la dirección de los pesos futuros", isCorrect: true },
                 { text: "Los pesos no se modifican", isCorrect: false },
                 { text: "La dirección de la mayor reducción del error únicamente", isCorrect: false },
                 { text: "Valores aleatorios", isCorrect: false }
@@ -943,11 +1028,12 @@
         {
             topic: "Redes Neuronales (Fortalezas)",
             question: "Se consideran fortalezas de las redes neuronales:",
+            explanation: "Son 'aproximadores universales': aprenden relaciones complejas no lineales sin que el humano tenga que definir reglas explícitas.",
             options: [
-                { text: "Se adaptan fácilmente a clasificación/regresión y hacen pocas suposiciones sobre los datos", isCorrect: true },
+                { text: "Se adaptan fácilmente a problemas de clasificación, regresión, incluso a aprendizaje no supervisado", isCorrect: true },
                 { text: "Gestionan muy bien los datos faltantes", isCorrect: false },
-                { text: "Son modelos de caja blanca muy interpretables", isCorrect: false },
-                { text: "Funcionan mejor con pocos datos", isCorrect: false }
+                { text: "Son un modelo de caja negra", isCorrect: false },
+                { text: "Hacen pocas suposiciones sobre las relaciones de los datos", isCorrect: true } // Nota: Unifiqué las respuestas correctas lógicas
             ]
         }
     ];
@@ -1024,21 +1110,24 @@
         answered = true;
 
         const isCorrect = selectedOption.isCorrect;
+        const qData = currentQuestions[currentQuestionIndex];
         
         userHistory.push({
-            question: currentQuestions[currentQuestionIndex].question,
-            topic: currentQuestions[currentQuestionIndex].topic,
+            question: qData.question,
+            topic: qData.topic,
             userChoice: selectedOption.text,
-            correctChoice: currentQuestions[currentQuestionIndex].options.find(o => o.isCorrect).text,
+            correctChoice: qData.options.find(o => o.isCorrect).text,
             wasCorrect: isCorrect
         });
 
         const buttons = optionsEl.querySelectorAll('.option-btn');
         
+        // Contenido del feedback (con explicación)
+        let feedbackHTML = '';
         if (isCorrect) {
             score++;
             btnElement.classList.add('correct');
-            feedbackEl.innerHTML = '<span style="color: var(--success-color)">¡Correcto!</span>';
+            feedbackHTML = `<span style="color: var(--success-color); font-weight:bold;">¡Correcto!</span>`;
         } else {
             btnElement.classList.add('incorrect');
             buttons.forEach(b => {
@@ -1046,10 +1135,15 @@
                     b.classList.add('correct');
                 }
             });
-            feedbackEl.innerHTML = '<span style="color: var(--error-color)">Incorrecto.</span> Respuesta correcta marcada en verde.';
+            feedbackHTML = `<span style="color: var(--error-color); font-weight:bold;">Incorrecto.</span>`;
         }
 
+        // Agregar la caja de explicación
+        feedbackHTML += `<div class="explanation-box"><b>Explicación:</b> ${qData.explanation}</div>`;
+        
+        feedbackEl.innerHTML = feedbackHTML;
         feedbackEl.style.display = 'block';
+        
         nextBtn.disabled = false;
         buttons.forEach(btn => btn.disabled = true);
     }
