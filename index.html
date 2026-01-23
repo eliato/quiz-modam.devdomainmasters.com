@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulacro Examen ML (20 Preguntas)</title>
+    <title>Simulacro Examen ML (87 Preguntas)</title>
     <style>
         :root {
             --primary-color: #2563eb;
@@ -279,7 +279,7 @@
 </div>
 
 <script>
-    // --- UNIVERSO DE 72 PREGUNTAS ---
+    // --- UNIVERSO DE 87 PREGUNTAS ---
     const rawData = [
         // === BLOQUE 1: FUNDAMENTOS ===
         { topic: "Procesos de ML", question: "¿Cuál NO es una etapa dentro del proceso general de modelado del aprendizaje automático?", explanation: "Las etapas clave son Definir el problema, Dividir datos y Entrenar. 'Numerar los ejemplos' es irrelevante.", options: [{text:"Definir el problema",isCorrect:false},{text:"Dividir el conjunto de entrenamiento y test",isCorrect:false},{text:"Entrenar el modelo",isCorrect:false},{text:"Numerar los ejemplos de entrenamiento",isCorrect:true}] },
@@ -299,7 +299,7 @@
         // === BLOQUE 4: REGRESIÓN & CLASIFICACIÓN ===
         { topic: "Regresión", question: "Verdadero o Falso: El error cuadrático medio puede llegar a ser muy grande.", explanation: "Verdadero. No está normalizado, depende de la escala de los datos.", options: [{text:"Verdadero",isCorrect:true},{text:"Falso",isCorrect:false}] },
         { topic: "Regresión", question: "Verdadero o Falso: Al entrenar un modelo de regresión se dividen los datos en entrenamiento y test.", explanation: "Verdadero. Es fundamental para evaluar la generalización.", options: [{text:"Verdadero",isCorrect:true},{text:"Falso",isCorrect:false}] },
-        { topic: "Regresión", question: "Verdadero o Falso: El coeficiente de determinación puede ser un número muy grande (mayor a 1).", explanation: "Falso. El R2 máximo es 1 (modelo perfecto).", options: [{text:"Verdadero",isCorrect:false},{text:"Falso",isCorrect:true}] },
+        { topic: "Regresión", question: "Verdadero o Falso: El coeficiente de determinación puede ser un número muy grande (mayor a 1).", explanation: "Falso. El R2 máximo es 1 (predicción perfecta).", options: [{text:"Verdadero",isCorrect:false},{text:"Falso",isCorrect:true}] },
         { topic: "Clasificación", question: "La clasificación puede ser de tipo:", explanation: "Binaria (2 clases) o Multiclase (>2 clases).", options: [{text:"Lineal y Polinómica",isCorrect:false},{text:"Binaria y Multiclase",isCorrect:true},{text:"Regresiva y Lineal",isCorrect:false},{text:"Supervisada y No supervisada",isCorrect:false}] },
         { topic: "Clasificación", question: "Si la probabilidad de pertenencia es 0.55 para la clase 1 y 0.45 para la clase 2, se puede afirmar que:", explanation: "Gana la clase 1, pero con poca confianza (cerca del umbral 0.5).", options: [{text:"Pertenece a la clase 2",isCorrect:false},{text:"No debería clasificarse la instancia",isCorrect:false},{text:"Pertenece a la clase 1 y el límite de pertenencia está muy cercano",isCorrect:true},{text:"El modelo ha fallado",isCorrect:false}] },
         { topic: "Clasificación", question: "¿Qué vectores se deben tener preparados antes de crear la matriz de confusión?", explanation: "Necesitas comparar lo REAL vs lo PREDICHO.", options: [{text:"La tabla con verdaderos positivos y negativos",isCorrect:false},{text:"El vector de clasificación real y el vector de clasificación predicha",isCorrect:true},{text:"La variable a predecir",isCorrect:false},{text:"Solo los datos de test",isCorrect:false}] },
@@ -354,13 +354,29 @@
         { topic: "SVM", question: "Se considera una debilidad del algoritmo SVM:", explanation: "Es lento con muchos datos (complejidad cúbica).", options: [{text:"Puede ser lento de entrenar si se tienen muchos datos y muchas columnas",isCorrect:true},{text:"Es muy rápido de entrenarse sin importar la cantidad de datos",isCorrect:false},{text:"Funciona muy bien con datos ruidosos",isCorrect:false},{text:"Se puede utilizar en problemas de clasificación y regresión",isCorrect:false}] },
         { topic: "Redes Neuronales (Perceptrón)", question: "Una función de activación es:", explanation: "Introduce no-linealidad y define la salida.", options: [{text:"Una función que define la salida de una neurona dada una entrada o un conjunto de entradas",isCorrect:true},{text:"Una función que utiliza regresión exponencial y lineal",isCorrect:false},{text:"Una función que utiliza una regresión logística solamente",isCorrect:false},{text:"Una función que utiliza una regresión exponencial",isCorrect:false}] },
         { topic: "Redes Neuronales (Perceptrón)", question: "Un perceptrón está conformado por:", explanation: "Entradas, Pesos, Suma ponderada y Activación.", options: [{text:"Nodos que reciben los datos de entrada, pesos sinápticos y una función de activación",isCorrect:true},{text:"Un conjunto de neuronas artificiales",isCorrect:false},{text:"Dendritas, axón y cuerpo celular",isCorrect:false},{text:"Dendritas y axón",isCorrect:false}] },
-        { topic: "Redes Neuronales (Perceptrón)", question: "Década en la que se crea el perceptrón:", explanation: "1957 por Rosenblatt.", options: [{text:"1950",isCorrect:true},{text:"1940",isCorrect:false},{text:"1930",isCorrect:false},{text:"1960",isCorrect:false}] },
-        { topic: "Redes Neuronales", question: "Las funciones lineales, tangente hiperbólica y gaussiana son funciones de activación:", explanation: "Verdadero.", options: [{text:"Verdadero",isCorrect:true},{text:"Falso",isCorrect:false}] },
-        { topic: "Redes Neuronales", question: "El número de capas de una red neuronal depende del número de características que tenga el conjunto de datos:", explanation: "Falso. Es decisión de diseño de arquitectura.", options: [{text:"Verdadero",isCorrect:false},{text:"Falso",isCorrect:true}] },
+        { topic: "Redes Neuronales (Perceptrón)", question: "Década en la que se crea el perceptrón:", explanation: "1950 (específicamente 1957 por Rosenblatt).", options: [{text:"1950",isCorrect:true},{text:"1940",isCorrect:false},{text:"1930",isCorrect:false},{text:"1960",isCorrect:false}] },
+        { topic: "Redes Neuronales", question: "Las funciones lineales, tangente hiperbólica y gaussiana son funciones de activación:", explanation: "Verdadero. Son típicas funciones de activación.", options: [{text:"Verdadero",isCorrect:true},{text:"Falso",isCorrect:false}] },
+        { topic: "Redes Neuronales", question: "El número de capas de una red neuronal depende del número de características que tenga el conjunto de datos:", explanation: "Falso. Es decisión de diseño de arquitectura (hiperparámetro).", options: [{text:"Verdadero",isCorrect:false},{text:"Falso",isCorrect:true}] },
         { topic: "Redes Neuronales", question: "El número de neuronas de entrada depende del número de características que tenga el conjunto de datos:", explanation: "Verdadero. Cada feature necesita una neurona de entrada.", options: [{text:"Verdadero",isCorrect:true},{text:"Falso",isCorrect:false}] },
         { topic: "Redes Neuronales (Backprop)", question: "Las fases del algoritmo de *backpropagation* son:", explanation: "Ida (Forward) y Vuelta (Backward).", options: [{text:"Fase forward y Fase backward",isCorrect:true},{text:"Solo Fase de reentrenamiento",isCorrect:false},{text:"Solo Fase de retropropagación",isCorrect:false},{text:"Fase de entrenamiento y Fase de validación",isCorrect:false}] },
-        { topic: "Redes Neuronales (Backprop)", question: "Para modificar los pesos de una red se utiliza:", explanation: "Gradiente descendente + derivada de la activación.", options: [{text:"La derivada de la función de activación de cada neurona para identificar el gradiente de la dirección de los pesos futuros",isCorrect:true},{text:"Los pesos no se modifican",isCorrect:false},{text:"La dirección de la mayor reducción del error únicamente",isCorrect:false},{text:"Valores aleatorios",isCorrect:false}] },
-        { topic: "Redes Neuronales (Fortalezas)", question: "Se consideran fortalezas de las redes neuronales:", explanation: "Se adaptan a todo (clasificación, regresión) y aprenden solas (feature extraction).", options: [{text:"Se adaptan fácilmente a problemas de clasificación, regresión, incluso a aprendizaje no supervisado",isCorrect:true},{text:"Gestionan muy bien los datos faltantes",isCorrect:false},{text:"Son un modelo de caja negra",isCorrect:false},{text:"Hacen pocas suposiciones sobre las relaciones de los datos",isCorrect:true}] }
+        { topic: "Redes Neuronales (Backprop)", question: "Para modificar los pesos de una red se utiliza:", explanation: "Gradiente descendente + derivada de la función de activación.", options: [{text:"La derivada de la función de activación de cada neurona para identificar el gradiente de la dirección de los pesos futuros",isCorrect:true},{text:"Los pesos no se modifican",isCorrect:false},{text:"La dirección de la mayor reducción del error únicamente",isCorrect:false},{text:"Valores aleatorios",isCorrect:false}] },
+        { topic: "Redes Neuronales (Fortalezas)", question: "Se consideran fortalezas de las redes neuronales:", explanation: "Hacen pocas suposiciones y son muy flexibles.", options: [{text:"Se adaptan fácilmente a problemas de clasificación, regresión, incluso a aprendizaje no supervisado",isCorrect:true},{text:"Gestionan muy bien los datos faltantes",isCorrect:false},{text:"Son un modelo de caja negra",isCorrect:false},{text:"Hacen pocas suposiciones sobre las relaciones de los datos",isCorrect:true}] },
+        // === BLOQUE 9: NUEVAS (CLUSTERING & ANOMALÍAS) ===
+        { topic: "Clustering", question: "Una técnica de *clustering* divide los datos en grupos con similares características sin necesidad de etiquetas de clase:", explanation: "Verdadero. Es aprendizaje no supervisado.", options: [{text:"Verdadero",isCorrect:true},{text:"Falso",isCorrect:false}] },
+        { topic: "Clustering", question: "Los algoritmos de clustering se dividen en dos grupos: Agrupación y Jerárquicos.", explanation: "Verdadero. Son las dos familias principales.", options: [{text:"Verdadero",isCorrect:true},{text:"Falso",isCorrect:false}] },
+        { topic: "Clustering", question: "Las técnicas de aprendizaje no supervisado pueden ayudar a reducir conjuntos de datos muy grandes.", explanation: "Verdadero. Mediante la agrupación o reducción de dimensionalidad.", options: [{text:"Verdadero",isCorrect:true},{text:"Falso",isCorrect:false}] },
+        { topic: "K-Means", question: "El objetivo del algoritmo de *K-medias* es maximizar las diferencias entre los elementos de un grupo y minimizar las diferencias entre grupos:", explanation: "Falso. Es al revés: Minimizar varianza intra-grupo y Maximizar separación entre grupos.", options: [{text:"Verdadero",isCorrect:false},{text:"Falso",isCorrect:true}] },
+        { topic: "K-Means", question: "El algoritmo de *K-medias* comprende dos fases: asignar ejemplos a un clúster y actualizar asignaciones ajustando límites:", explanation: "Verdadero. Asignación y Actualización de centroides.", options: [{text:"Verdadero",isCorrect:true},{text:"Falso",isCorrect:false}] },
+        { topic: "K-Means", question: "Los diagramas de Voronoi permiten delimitar el espacio de cada clúster:", explanation: "Verdadero. Particionan el plano según el centroide más cercano.", options: [{text:"Verdadero",isCorrect:true},{text:"Falso",isCorrect:false}] },
+        { topic: "Clustering (Desventajas)", question: "Se consideran desventajas de los algoritmos de agrupamiento:", explanation: "Son subjetivos, sin etiquetas reales y los resultados pueden malinterpretarse.", options: [{text:"Fáciles de entender, raramente proveen buena solución y mala interpretación",isCorrect:true},{text:"Se implementan fácilmente",isCorrect:false},{text:"Son supervisados",isCorrect:false},{text:"Siempre dan la solución óptima",isCorrect:false}] },
+        { topic: "Clustering Jerárquico", question: "En cada iteración del algoritmo de agrupamiento jerárquico se llevan a cabo las siguientes acciones:", explanation: "Se crean clústeres uniendo elementos cercanos y se dibuja la conexión.", options: [{text:"Se crean clústeres, se asignan elementos al más cercano y se dibuja la conexión (altura=distancia)",isCorrect:true},{text:"Se asignan alturas al azar",isCorrect:false},{text:"Se crean todos los clústeres en un solo paso",isCorrect:false},{text:"Se borran los datos originales",isCorrect:false}] },
+        { topic: "Clustering Jerárquico", question: "El agrupamiento jerárquico puede ser de dos tipos:", explanation: "Aglomerativo (Bottom-up) y Divisivo (Top-down).", options: [{text:"Agglomerative y Divisive",isCorrect:true},{text:"Bottom-up y Top-down",isCorrect:false},{text:"Hard y Soft",isCorrect:false},{text:"K-means y DBSCAN",isCorrect:false}] },
+        { topic: "Anomalías", question: "Una anomalía puede deberse a:", explanation: "Errores (fallos) o eventos reales raros (naturaleza del dato).", options: [{text:"Fallos de mediciones y la propia naturaleza del dato",isCorrect:true},{text:"Un dato dentro del rango normal",isCorrect:false},{text:"Datos perfectamente limpios",isCorrect:false},{text:"Mediciones estándar",isCorrect:false}] },
+        { topic: "Estadística", question: "Son tipos de distribuciones:", explanation: "Formas de la curva de datos.", options: [{text:"Bimodal, Asimétrica positiva y Asimétrica negativa",isCorrect:true},{text:"Selectiva",isCorrect:false},{text:"Lineal y no lineal",isCorrect:false},{text:"Supervisada y no supervisada",isCorrect:false}] },
+        { topic: "Anomalías", question: "Son tipos de anomalías:", explanation: "Puntuales, Colectivas y Contextuales.", options: [{text:"Colectivas y De contexto",isCorrect:true},{text:"Subsecuencia de valores normales",isCorrect:false},{text:"Paramétricas",isCorrect:false},{text:"Lineales",isCorrect:false}] },
+        { topic: "Anomalías", question: "Las aproximaciones gráficas para detectar anomalías consisten en inspeccionar visualmente los datos para determinar cuáles son anómalos:", explanation: "Verdadero. Boxplots, Scatterplots, etc.", options: [{text:"Verdadero",isCorrect:true},{text:"Falso",isCorrect:false}] },
+        { topic: "Isolation Forest", question: "La técnica de *isolation forest* forma múltiples árboles llamados *isolation trees*:", explanation: "Verdadero. Aísla observaciones; las anómalas se aíslan rápido (pocas divisiones).", options: [{text:"Verdadero",isCorrect:true},{text:"Falso",isCorrect:false}] },
+        { topic: "Anomalías (ML)", question: "Las aproximaciones basadas en aprendizaje automático como vecinos cercanos y *clustering* se crean porque los datos siempre cumplen una distribución normal:", explanation: "Falso. Se usan precisamente cuando NO podemos asumir normalidad (métodos no paramétricos).", options: [{text:"Verdadero",isCorrect:false},{text:"Falso",isCorrect:true}] }
     ];
 
     // Variables
@@ -399,14 +415,14 @@
         score = 0;
         userHistory = [];
         
-        // 1. Clonar y barajar TODAS las preguntas
+        // 1. Clonar y barajar TODAS las preguntas (87)
         let allQuestions = JSON.parse(JSON.stringify(rawData));
         allQuestions = shuffleArray(allQuestions);
         
-        // 2. Seleccionar SOLO LAS PRIMERAS 20
+        // 2. Seleccionar SOLO 20 AL AZAR
         currentQuestions = allQuestions.slice(0, 20);
         
-        // 3. Barajar opciones de esas 20
+        // 3. Barajar opciones
         currentQuestions.forEach(q => q.options = shuffleArray(q.options));
 
         questionScreen.style.display = 'block';
@@ -423,7 +439,7 @@
         
         const qData = currentQuestions[currentQuestionIndex];
         
-        // Actualizar contador visual
+        // Actualizar contador
         qCounterEl.innerText = `Pregunta ${currentQuestionIndex + 1} de ${currentQuestions.length}`;
         questionEl.innerText = `${currentQuestionIndex + 1}. ${qData.question}`;
         
